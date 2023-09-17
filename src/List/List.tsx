@@ -4,9 +4,12 @@ import Card from './Card/Card';
 import PopUpMenu from '../PopUpMenu/PopUpMenu';
 import Button from '../Button/Button';
 import { FormDetails } from './FormDetails';
+import { useAsyncError } from 'react-router-dom';
 
 const List = () => {
   const [addUserPopUp, setUserPopUp] = useState(false);
+  const [data, setData] = useState({});
+  const [editable, setEditConfig] = useState(false);
   const [formHistory, setFormHistory] = useState<FormDetails[]>([
     {
       name: 'Nirmal',
@@ -78,7 +81,27 @@ const List = () => {
   }, [formHistory]);
 
   const onAddUserHandler = () => {
-    console.log('add user button');
+    setData('');
+    setUserPopUp(true);
+  };
+
+  const onDeleteHandler = (objectToDelete: any) => {
+    const updatedFormHistory = [...formHistory].filter(item => {
+      return (
+        item.name !== objectToDelete.name ||
+        item.age !== objectToDelete.age ||
+        item.dob !== objectToDelete.dob ||
+        item.gender !== objectToDelete.gender ||
+        item.favfood !== objectToDelete.favfood ||
+        item.hobbies !== objectToDelete.hobbies
+      );
+    });
+    setFormHistory(updatedFormHistory);
+  };
+  const onViewHandler = (state: any, objectToView: any) => {
+    const date = new Date(objectToView.dob);
+    state === 'View' ? setEditConfig(false) : setEditConfig(true);
+    setData(objectToView);
     setUserPopUp(true);
   };
   return (
@@ -92,19 +115,19 @@ const List = () => {
             color: 'blue',
           }}
         />
-        {addUserPopUp && <PopUpMenu popUpState={setUserPopUp} formDataDetails={setFormHistory} />}
+        {addUserPopUp && (
+          <PopUpMenu popUpState={setUserPopUp} selectedCard={data} formDataDetails={setFormHistory} state={editable} />
+        )}
       </div>
       <div className="card-wrapper">
         {formHistory.length &&
           formHistory.map((formData, index) => (
             <Card
               key={index}
-              name={formData.name}
-              age={formData.age}
-              dob={formData.dob}
-              gender={formData.gender}
-              favfood={formData.favfood}
-              hobbies={formData.hobbies}
+              uniqueId={index}
+              formDataValue={formData}
+              onDelete={onDeleteHandler}
+              onView={onViewHandler}
             />
           ))}
       </div>

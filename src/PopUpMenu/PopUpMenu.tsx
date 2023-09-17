@@ -5,21 +5,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { FormDetails } from '../List/FormDetails';
 
-const PopUpMenu = ({ popUpState, formDataDetails }: any) => {
+const PopUpMenu = ({ popUpState, formDataDetails, selectedCard, state }: any) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  // const [formHistory, setFormHistory] = useState<FormDetails[]>([]);
-  const [formData, setFormData] = useState<FormDetails>({
-    name: '',
-    age: 0,
-    dob: null,
-    gender: '',
-    favfood: '',
-    hobbies: '',
-  });
+  const [formData, setFormData] = useState<FormDetails>(
+    selectedCard || {
+      name: '',
+      age: 0,
+      dob: null,
+      gender: '',
+      favfood: '',
+      hobbies: '',
+    },
+  );
 
   const onCloseHandler = () => {
-    popUpState(false);
     resetData();
+    popUpState(false);
   };
 
   const resetData = () => {
@@ -44,7 +45,6 @@ const PopUpMenu = ({ popUpState, formDataDetails }: any) => {
   };
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
-    // console.log(formData, 'here');
     formDataDetails((prevFormHistory: any) => [...prevFormHistory, formData]);
     onCloseHandler();
   };
@@ -59,11 +59,27 @@ const PopUpMenu = ({ popUpState, formDataDetails }: any) => {
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="name">NAME</label>
-                <input type="text" value={formData.name} id="name" name="name" onChange={handleOnChange} required />
+                <input
+                  type="text"
+                  value={formData.name}
+                  id="name"
+                  name="name"
+                  onChange={handleOnChange}
+                  disabled={!state}
+                  required
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="age">AGE</label>
-                <input type="number" value={formData.age} id="age" name="age" onChange={handleOnChange} required />
+                <input
+                  disabled={!state}
+                  type="number"
+                  value={formData.age}
+                  id="age"
+                  name="age"
+                  onChange={handleOnChange}
+                  required
+                />
               </div>
             </div>
             <div className="form-row">
@@ -71,6 +87,7 @@ const PopUpMenu = ({ popUpState, formDataDetails }: any) => {
                 <label htmlFor="dob">DOB</label>
                 <DatePicker
                   required
+                  disabled={!state}
                   selected={selectedDate}
                   onChange={date => {
                     setSelectedDate(date);
@@ -86,6 +103,7 @@ const PopUpMenu = ({ popUpState, formDataDetails }: any) => {
                 <div className="radio-group">
                   <input
                     type="radio"
+                    disabled={!state}
                     id="male"
                     checked={formData.gender === 'Male'}
                     name="gender"
@@ -98,6 +116,7 @@ const PopUpMenu = ({ popUpState, formDataDetails }: any) => {
                   </label>
                   <input
                     type="radio"
+                    disabled={!state}
                     id="female"
                     checked={formData.gender === 'Female'}
                     name="gender"
@@ -114,7 +133,14 @@ const PopUpMenu = ({ popUpState, formDataDetails }: any) => {
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="favfood">FAVOURITE FOOD</label>
-                <select id="favfood" name="favfood" onChange={handleOnChange} value={formData.favfood} required>
+                <select
+                  id="favfood"
+                  name="favfood"
+                  onChange={handleOnChange}
+                  disabled={!state}
+                  value={formData.favfood}
+                  required
+                >
                   <option value="">Select an option</option>
                   <option value="Pizza">Pizza</option>
                   <option value="Pasta">Pasta</option>
@@ -123,7 +149,14 @@ const PopUpMenu = ({ popUpState, formDataDetails }: any) => {
               </div>
               <div className="form-group">
                 <label htmlFor="hobbies">HOBBIES</label>
-                <textarea id="hobbies" value={formData.hobbies} name="hobbies" onChange={handleOnChange} required />
+                <textarea
+                  disabled={!state}
+                  id="hobbies"
+                  value={formData.hobbies}
+                  name="hobbies"
+                  onChange={handleOnChange}
+                  required
+                />
               </div>
             </div>
             <div className="btn-container">
