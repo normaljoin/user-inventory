@@ -1,0 +1,33 @@
+.header{
+    font-weight: 700;
+    height: 122px;
+    background-color: #1E1E1EE0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.text {
+    color: #FFFFFF;
+    font-size: 24px;
+}
+
+.logo {
+    height: 54px;
+    width: 54px;
+    cursor: pointer;
+}
+
+@media (max-width: 430px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .logo {
+        display: none;
+    }
+}

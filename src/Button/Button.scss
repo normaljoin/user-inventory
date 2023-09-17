@@ -1,0 +1,25 @@
+.btn {
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    color: white;
+    width: 134px;
+    height: 46px;
+    font-size: 15px;
+}
+
+.btn.blue {
+    background-color:#1677FF;
+}
+.btn.red {
+    background-color: #F64F2A;
+}
+
+@media (max-width: 440px) {
+    .btn {
+        width: 125px;
+        height: 30px;
+        font-size: 12px;
+    }
+}
