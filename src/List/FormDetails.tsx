@@ -1,4 +1,5 @@
 export interface FormDetails {
+  id: number;
   name: string;
   age: number;
   dob: Date | null;

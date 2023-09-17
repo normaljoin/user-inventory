@@ -4,7 +4,6 @@ import Card from './Card/Card';
 import PopUpMenu from '../PopUpMenu/PopUpMenu';
 import Button from '../Button/Button';
 import { FormDetails } from './FormDetails';
-import { useAsyncError } from 'react-router-dom';
 
 const List = () => {
   const [addUserPopUp, setUserPopUp] = useState(false);
@@ -12,6 +11,7 @@ const List = () => {
   const [editable, setEditConfig] = useState(false);
   const [formHistory, setFormHistory] = useState<FormDetails[]>([
     {
+      id: 1,
       name: 'Nirmal',
       age: 51,
       dob: new Date('1972-09-27T18:30:00.000Z'),
@@ -20,6 +20,7 @@ const List = () => {
       hobbies: 'Cricket',
     },
     {
+      id: 2,
       name: 'Heyy',
       age: 26,
       dob: new Date('1997-08-27T18:30:00.000Z'),
@@ -28,6 +29,7 @@ const List = () => {
       hobbies: 'Badminton',
     },
     {
+      id: 3,
       name: 'Normal Join',
       age: 20,
       dob: new Date('2003-08-27T18:30:00.000Z'),
@@ -36,6 +38,7 @@ const List = () => {
       hobbies: 'Cricket, Badminton',
     },
     {
+      id: 4,
       name: 'Normal',
       age: 1,
       dob: new Date('2022-08-27T18:30:00.000Z'),
@@ -44,6 +47,7 @@ const List = () => {
       hobbies: 'Badminton, Cricket',
     },
     {
+      id: 5,
       name: 'Jain',
       age: 23,
       dob: new Date('2000-08-27T18:30:00.000Z'),
@@ -52,6 +56,7 @@ const List = () => {
       hobbies: 'sdfsdf',
     },
     {
+      id: 6,
       name: 'Rando',
       age: 10,
       dob: new Date('2013-08-27T18:30:00.000Z'),
@@ -60,6 +65,7 @@ const List = () => {
       hobbies: 'Swimming',
     },
     {
+      id: 7,
       name: 'Ginger',
       age: 21,
       dob: new Date('2002-08-27T18:30:00.000Z'),
@@ -85,6 +91,12 @@ const List = () => {
     setUserPopUp(true);
   };
 
+  const onEditHandler = (editedData: any) => {
+    console.log(editedData);
+    setFormHistory(prevFormHistory =>
+      prevFormHistory.map(formData => (formData.id === editedData.id ? editedData : formData)),
+    );
+  };
   const onDeleteHandler = (objectToDelete: any) => {
     const updatedFormHistory = [...formHistory].filter(item => {
       return (
@@ -101,6 +113,7 @@ const List = () => {
   const onViewHandler = (state: any, objectToView: any) => {
     const date = new Date(objectToView.dob);
     state === 'View' ? setEditConfig(false) : setEditConfig(true);
+    objectToView.dob = date;
     setData(objectToView);
     setUserPopUp(true);
   };
@@ -116,7 +129,14 @@ const List = () => {
           }}
         />
         {addUserPopUp && (
-          <PopUpMenu popUpState={setUserPopUp} selectedCard={data} formDataDetails={setFormHistory} state={editable} />
+          <PopUpMenu
+            popUpState={setUserPopUp}
+            selectedCard={data}
+            totalLength={formHistory.length}
+            formDataDetails={setFormHistory}
+            state={editable}
+            editHandler={onEditHandler}
+          />
         )}
       </div>
       <div className="card-wrapper">

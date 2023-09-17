@@ -5,10 +5,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { FormDetails } from '../List/FormDetails';
 
-const PopUpMenu = ({ popUpState, formDataDetails, selectedCard, state }: any) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+const PopUpMenu = ({ popUpState, formDataDetails, selectedCard, state, editHandler, totalLength }: any) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(selectedCard.dob || null);
   const [formData, setFormData] = useState<FormDetails>(
     selectedCard || {
+      id: 0,
       name: '',
       age: 0,
       dob: null,
@@ -25,6 +26,7 @@ const PopUpMenu = ({ popUpState, formDataDetails, selectedCard, state }: any) =>
 
   const resetData = () => {
     setFormData({
+      id: 0,
       name: '',
       age: 0,
       dob: null,
@@ -45,10 +47,17 @@ const PopUpMenu = ({ popUpState, formDataDetails, selectedCard, state }: any) =>
   };
   const onSubmitHandler = (event: any) => {
     event.preventDefault();
-    formDataDetails((prevFormHistory: any) => [...prevFormHistory, formData]);
+    if (state) {
+      editHandler(formData);
+    } else {
+      const newFormData = {
+        ...formData,
+        id: totalLength + 1,
+      };
+      formDataDetails((prevFormHistory: any) => [...prevFormHistory, newFormData]);
+    }
     onCloseHandler();
   };
-
   return (
     <>
       <div className="modal">

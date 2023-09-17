@@ -14,7 +14,7 @@ const Card = ({ formDataValue, onDelete, onView }: any) => {
       </div>
       <div className="card-display">
         <p className="card-data">AGE: {formDataValue.age}</p>
-        <p>DOB: {formDataValue.date}</p>
+        <p>DOB: {date}</p>
         <p>GENDER: {formDataValue.gender}</p>
         <p>FOOD: {formDataValue.favfood}</p>
         <p>HOBBIES: {formDataValue.hobbies}</p>
